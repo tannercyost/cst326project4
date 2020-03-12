@@ -9,8 +9,9 @@ public class Enemy : MonoBehaviour
   private int currentIndexWaypoint = 0;
   public float speed = 1;
 
-  void Start()
+  public void Initialize(WaypointManager waypointManager)
   {
+    this.waypointManager = waypointManager;
     GetNextWaypoint();
     transform.position = currentDestination.transform.position; // Move to WP0
     GetNextWaypoint();
