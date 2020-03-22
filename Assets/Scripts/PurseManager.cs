@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class PurseManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    int coins = 0;
+
+    public void addToPurse(int amt)
     {
-        
+        coins += amt;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void removeFromPurse(int amt)
     {
-        
+        coins -= amt;
     }
 }
