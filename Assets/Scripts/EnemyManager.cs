@@ -5,76 +5,80 @@ using UnityEngine;
 [System.Serializable]
 public struct Group
 {
-  public GameObject enemy;
-  public float spawnTime;
-  public int numberOfEnemies;
+    public GameObject enemy;
+    public float spawnTime;
+    public int numberOfEnemies;
+    public int health;
+    public int value;
 
-  public Group(GameObject enemy, float spawnTime, int numberOfEnemies)
-  {
-    this.enemy = enemy;
-    this.spawnTime = spawnTime;
-    this.numberOfEnemies = numberOfEnemies;
-  }
+    public Group(GameObject enemy, float spawnTime, int numberOfEnemies, int health, int value)
+    {
+        this.enemy = enemy;
+        this.spawnTime = spawnTime;
+        this.numberOfEnemies = numberOfEnemies;
+        this.health = health;
+        this.value = value;
+    }
 }
 
 [System.Serializable]
 public struct Wave
 {
-  public Group[] enemyGroups;
+    public Group[] enemyGroups;
 
-  public Wave(Group[] enemyGroups)
-  {
-    this.enemyGroups = enemyGroups;
-  }
+    public Wave(Group[] enemyGroups)
+    {
+        this.enemyGroups = enemyGroups;
+    }
 }
 
 
 public class EnemyManager : MonoBehaviour
 {
-  public GameObject EnemyA;
-  public GameObject EnemyB;
-  public float timeToWaitA = 1;
-  public float timeToWaitB = 1.5f;
-  public Wave currentWave;
+    public GameObject EnemyA;
+    public GameObject EnemyB;
+    public float timeToWaitA = 1;
+    public float timeToWaitB = 1.5f;
+    public Wave currentWave;
 
-  public WaypointManager waypointManager;
+    public WaypointManager waypointManager;
 
-  void Start()
-  {
-
-    Group groupA = new Group(EnemyA, 1f, 5);
-    Group groupB = new Group(EnemyB, timeToWaitB, 3);
-
-    Group[] groups = new Group[2]{groupA, groupB};
-    currentWave = new Wave(new Group[2] { groupA, groupB });
-
-    SpawnWave(currentWave);
-  }
-
-  private void SpawnWave(Wave newWave)
-  {
-    foreach (Group group in newWave.enemyGroups)
+    void Start()
     {
-      StartCoroutine(SpawnGroup(group));
+
+        Group groupA = new Group(EnemyA, 1f, 5, 3, 5);
+        Group groupB = new Group(EnemyB, timeToWaitB, 3, 5, 10);
+
+        Group[] groups = new Group[2]{groupA, groupB};
+        currentWave = new Wave(new Group[2] { groupA, groupB });
+
+        SpawnWave(currentWave);
     }
-  }
 
-  //private IEnumerator SpawnWave(Wave newWave)
-  //{
-  //  while (true)
-  //  {
-  //    yield return (1);
-  //  }
-  //}
-
-  private IEnumerator SpawnGroup(Group @group)
-  {
-    while (@group.numberOfEnemies > 0)
+    private void SpawnWave(Wave newWave)
     {
-      yield return new WaitForSeconds(@group.spawnTime);
-      GameObject enemy = Instantiate(@group.enemy);
-      enemy.GetComponent<Enemy>().Initialize(waypointManager);
-      @group.numberOfEnemies--;
+        foreach (Group group in newWave.enemyGroups)
+        {
+            StartCoroutine(SpawnGroup(group, group.health, group.value));
+        }
     }
-  }
+
+    //private IEnumerator SpawnWave(Wave newWave)
+    //{
+    //  while (true)
+    //  {
+    //    yield return (1);
+    //  }
+    //}
+
+    private IEnumerator SpawnGroup(Group @group, int health, int value)
+    {
+        while (@group.numberOfEnemies > 0)
+        {
+            yield return new WaitForSeconds(@group.spawnTime);
+            GameObject enemy = Instantiate(@group.enemy);
+            enemy.GetComponent<Enemy>().Initialize(waypointManager, health, value);
+            @group.numberOfEnemies--;
+        }
+    }
 }
