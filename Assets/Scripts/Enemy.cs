@@ -35,8 +35,6 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-
-
         Vector3 direction = currentDestination.transform.position - transform.position;
         if (direction.magnitude < .2f)
         {
