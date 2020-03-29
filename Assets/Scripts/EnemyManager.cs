@@ -77,7 +77,7 @@ public class EnemyManager : MonoBehaviour
         {
             yield return new WaitForSeconds(@group.spawnTime);
             GameObject enemy = Instantiate(@group.enemy);
-            enemy.GetComponent<Enemy>().Initialize(waypointManager, health, value);
+            enemy.GetComponent<iMovement>().Initialize(waypointManager, health, value);
             @group.numberOfEnemies--;
         }
     }

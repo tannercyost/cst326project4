@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, iMovement
 {
     public Waypoint currentDestination;
     public WaypointManager waypointManager;
