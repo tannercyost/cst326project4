@@ -63,14 +63,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    //private IEnumerator SpawnWave(Wave newWave)
-    //{
-    //  while (true)
-    //  {
-    //    yield return (1);
-    //  }
-    //}
-
     private IEnumerator SpawnGroup(Group @group, int health, int value)
     {
         while (@group.numberOfEnemies > 0)
