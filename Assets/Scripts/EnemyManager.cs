@@ -63,21 +63,13 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    //private IEnumerator SpawnWave(Wave newWave)
-    //{
-    //  while (true)
-    //  {
-    //    yield return (1);
-    //  }
-    //}
-
     private IEnumerator SpawnGroup(Group @group, int health, int value)
     {
         while (@group.numberOfEnemies > 0)
         {
             yield return new WaitForSeconds(@group.spawnTime);
             GameObject enemy = Instantiate(@group.enemy);
-            enemy.GetComponent<Enemy>().Initialize(waypointManager, health, value);
+            enemy.GetComponent<iMovement>().Initialize(waypointManager, health, value);
             @group.numberOfEnemies--;
         }
     }
