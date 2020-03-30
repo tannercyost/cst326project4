@@ -2614,8 +2614,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc81cb4acdafa3946a4a9c2c21e27d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyA: {fileID: 8262523722266808650, guid: a3e2ebbc35638484fa33eec76c4c6aaf, type: 3}
-  EnemyB: {fileID: 8262523722266808650, guid: aae959e75873fc94db04cbec56062b97, type: 3}
+  EnemyA: {fileID: 8262523722266808650, guid: aae959e75873fc94db04cbec56062b97, type: 3}
+  EnemyB: {fileID: 8262523722266808650, guid: b42fc4d99e1592349ac1513afe8d7b21, type: 3}
   timeToWaitA: 1
   timeToWaitB: 1.5
   currentWave:
