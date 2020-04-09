@@ -32,10 +32,10 @@ public class PurseManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 100.0f))
             {
                 GameObject e = hit.transform.parent.gameObject;
-                bool death = e.GetComponent<Enemy>().Damage(1);
-                int value = e.GetComponent<Enemy>().value;
-                if (death)
-                    addToPurse(value);
+                //bool death = e.GetComponent<Enemy>().Damage(1);
+                //int value = e.GetComponent<Enemy>().value;
+                //if (death)
+                //    addToPurse(value);
             }
         }
     }
