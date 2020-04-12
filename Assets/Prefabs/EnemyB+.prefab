@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 751887012370060523}
-  - component: {fileID: 5164274373189426517}
+  - component: {fileID: 5025433551916961438}
   m_Layer: 0
   m_Name: HealthPivot
   m_TagString: Untagged
@@ -127,7 +127,7 @@ Transform:
   m_Father: {fileID: 1105175203854610134}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5164274373189426517
+--- !u!114 &5025433551916961438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2620609649611557264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 458c2cf7229b3344fa6c6a5a90c27571, type: 3}
+  m_Script: {fileID: 11500000, guid: d7cdbbc9416be404481403709e20053f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7111066124156787879
@@ -337,9 +337,11 @@ GameObject:
   - component: {fileID: 8262523722266808648}
   - component: {fileID: 40309759340469777}
   - component: {fileID: 3545131449859535435}
+  - component: {fileID: -3295948526936267135}
+  - component: {fileID: -1587145677990569560}
   m_Layer: 0
   m_Name: EnemyB+
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -391,6 +393,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 8262523722266808650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9e5bb88a7a35a341a98492c24d25af6, type: 3}
+  m_Script: {fileID: 11500000, guid: 32ed12ad1e3ac9549beec9dcd8da9644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxLife: 100
+  currentLife: 0
+  healthBar: {fileID: 5025433551916961438}
+  enemyDeath:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!65 &-3295948526936267135
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262523722266808650}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &-1587145677990569560
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8262523722266808650}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

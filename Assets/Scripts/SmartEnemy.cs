@@ -9,67 +9,66 @@ using UnityEngine.Events;
 public class SmartEnemy : MonoBehaviour, iMovement
 {
 
-  private NavMeshAgent agent;
+    private NavMeshAgent agent;
 
-  [SerializeField] private float maxLife = 100;
-  [SerializeField] private float currentLife = 0;
+    [SerializeField] private float maxLife = 100;
+    [SerializeField] private float currentLife = 0;
 
-  [SerializeField] private HealthBar healthBar;
+    [SerializeField] private HealthBar healthBar;
 
-  public UnityEvent enemyDeath;
-  void Awake()
-  {
-    agent = GetComponent<NavMeshAgent>();
-  }
-
-  public void Initialize(WaypointManager waypointManager)
-  {
-    NavMeshHit closestHit;
-    if (NavMesh.SamplePosition(waypointManager.waypoints[0].transform.position, out closestHit, 100f, NavMesh.AllAreas))
+    public UnityEvent enemyDeath;
+    void Awake()
     {
-      transform.position = closestHit.position;
-      StartCoroutine(Spawn(waypointManager));
+        agent = GetComponent<NavMeshAgent>();
     }
 
-  }
-
-  IEnumerator Spawn(WaypointManager waypointManager)
-  {
-    yield return new WaitForSeconds(.2f);
-    agent.enabled = true;
-    agent.SetDestination(waypointManager.waypoints[waypointManager.waypoints.Length - 1].transform.position);
-  }
-
-
-  void OnCollisionEnter(Collision collision)
-  {
-    if (collision.transform.tag == "Weapon")
+    public void Initialize(WaypointManager waypointManager)
     {
-      Bullet bulletThatHitMe = collision.transform.GetComponent<Bullet>();
-      currentLife -= bulletThatHitMe.Damage;
-
-      healthBar.UpdateHealthBar(currentLife, maxLife);
-
-      if (currentLife <= 0) //We are dead ... need to do book keeping
-      {
-        //update purse
-        enemyDeath.Invoke();
-        Destroy(gameObject);
-
-      }
-      Destroy(bulletThatHitMe.gameObject);
+        NavMeshHit closestHit;
+        if (NavMesh.SamplePosition(waypointManager.waypoints[0].transform.position, out closestHit, 100f, NavMesh.AllAreas))
+        {
+            transform.position = closestHit.position;
+            StartCoroutine(Spawn(waypointManager));
+        }
 
     }
-  }
+
+    IEnumerator Spawn(WaypointManager waypointManager)
+    {
+        yield return new WaitForSeconds(.2f);
+        agent.enabled = true;
+        agent.SetDestination(waypointManager.waypoints[waypointManager.waypoints.Length - 1].transform.position);
+    }
 
 
-  public GameObject GetGameObject()
-  {
-    return gameObject;
-  }
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Weapon")
+        {
+            Bullet bulletThatHitMe = collision.transform.GetComponent<Bullet>();
+            currentLife -= bulletThatHitMe.Damage;
 
-  public UnityEvent DeathEvent()
-  {
-    return enemyDeath;
-  }
+            healthBar.UpdateHealthBar(currentLife, maxLife);
+
+            if (currentLife <= 0) //We are dead ... need to do book keeping
+            {
+                //update purse
+                enemyDeath.Invoke();
+                Destroy(gameObject);
+            }
+            Destroy(bulletThatHitMe.gameObject);
+
+        }
+    }
+
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
+
+    public UnityEvent DeathEvent()
+    {
+        return enemyDeath;
+    }
 }
