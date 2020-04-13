@@ -11,36 +11,58 @@ public enum WeaponStates
 
 public enum WeaponParameters
 {
-    isTarget,
-    targetDistroyed,
-    newTarget
+    isTarget
 }
 
-[RequireComponent(typeof(Animator))]
 public class WeaponFSM : MonoBehaviour
 {
-    private Animator weapon;
-    public GameObject bullet;
+    [SerializeField] private Animator weapon;
     public GameObject target;
+    public List<iMovement> enemies;
+
     void Awake()
     {
-        weapon = GetComponent<Animator>();
+        enemies = new List<iMovement>();
     }
-
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (target) transform.LookAt(target.transform);
+    }
+
+    void SetTarget()
+    {
+        bool newTarget = (enemies.Count > 0);  //evaluates whether or not their is a new target
+        target = (newTarget) ? enemies[0].GetGameObject() : null;   // sets a new target if there is one
+        weapon.SetBool(WeaponParameters.isTarget.ToString(), newTarget); //sends message to FSM whether or not their is a new target for animation
+    }
+
+    public void BookKeepEnemy(iMovement enemy)
+    {
+        enemies.Remove(enemy); //this gets called from an enemy when they die
+        SetTarget();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Enemy")
         {
-            weapon.SetBool(WeaponParameters.isTarget.ToString(), !weapon.GetBool(WeaponParameters.isTarget.ToString()));
+            iMovement newEnemyDetected = other.GetComponent<iMovement>();
+            enemies.Add(newEnemyDetected);
+            newEnemyDetected.DeathEvent().AddListener(delegate { BookKeepEnemy(newEnemyDetected); });
         }
 
-        transform.LookAt(target.transform);
+        if (enemies.Count > 0) SetTarget();
     }
 
-    void Bang()
+    void OnTriggerExit(Collider other)
     {
-        Debug.Log("Pow");
-        GameObject newBullet = Instantiate(bullet, transform.position, Quaternion.identity);
-    }
+        if (other.tag == "Enemy")
+        {
+            iMovement enemyOutOfRange = other.GetComponent<iMovement>();
+            enemies.Remove(enemyOutOfRange);
+            enemyOutOfRange.DeathEvent().RemoveListener(delegate { BookKeepEnemy(enemyOutOfRange); });
 
+            SetTarget();
+        }
+    }
 }
