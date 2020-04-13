@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class PurseManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     private int coins = 0;
     [SerializeField] public WeaponFSM defense;

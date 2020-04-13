@@ -12,13 +12,14 @@ public class SmartEnemy : MonoBehaviour, iMovement
 
     [SerializeField] private float maxLife = 100;
     [SerializeField] private float currentLife = 0;
-
+    [SerializeField] private GameManager gm;
     [SerializeField] private HealthBar healthBar;
 
     public UnityEvent enemyDeath;
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        
     }
 
     public void Initialize(WaypointManager waypointManager)
