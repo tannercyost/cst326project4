@@ -8,7 +8,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(NavMeshAgent))]
 public class SmartEnemy : MonoBehaviour, iMovement
 {
-
     private NavMeshAgent agent;
 
     [SerializeField] private float maxLife = 100;

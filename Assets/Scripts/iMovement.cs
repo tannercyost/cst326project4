@@ -6,8 +6,8 @@ using UnityEngine.Events;
 
 public interface iMovement
 {
-  void Initialize(WaypointManager waypointManager);
-  GameObject GetGameObject();
+    void Initialize(WaypointManager waypointManager);
+    GameObject GetGameObject();
 
-  UnityEvent DeathEvent();
+    UnityEvent DeathEvent();
 }

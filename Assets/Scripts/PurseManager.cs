@@ -5,11 +5,13 @@ using TMPro;
 public class PurseManager : MonoBehaviour
 {
     private int coins = 0;
+    [SerializeField] public WeaponFSM defense;
     [SerializeField] TextMeshProUGUI coinText; // text field for current coin amount
-
+    private List<WeaponFSM> defenses;
     private void Awake()
     {
-        coinText.SetText("Coins: 0");
+        coins = 10;
+        coinText.SetText("Coins: " + coins);
     }
     private void addToPurse(int amt)
     {
@@ -29,9 +31,21 @@ public class PurseManager : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 100.0f))
+            if (Physics.Raycast(ray, out hit))
             {
-                GameObject e = hit.transform.parent.gameObject;
+                GameObject e = hit.transform.gameObject;
+                if (e.CompareTag("Location"))
+                {
+                    if (coins >= 10)
+                    {
+                        Instantiate(defense, hit.transform.position, hit.transform.rotation);
+                        removeFromPurse(10);
+                    }
+                    else
+                    {
+                        Debug.Log("Insufficient coins.");
+                    }
+                }
                 //bool death = e.GetComponent<Enemy>().Damage(1);
                 //int value = e.GetComponent<Enemy>().value;
                 //if (death)

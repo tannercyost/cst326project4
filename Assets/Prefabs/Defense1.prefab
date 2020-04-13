@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2923188662868765214}
   - component: {fileID: 2923188662868765215}
   - component: {fileID: 2923188662868765205}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 2288832548236254822}
   - component: {fileID: 8220334905386122519}
   - component: {fileID: 7130233612195934051}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Defense1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
