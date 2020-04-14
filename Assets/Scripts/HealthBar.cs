@@ -13,6 +13,4 @@ public class HealthBar : MonoBehaviour
     {
         transform.localScale = new Vector3( (heath/maxHealth), transform.localScale.y, transform.localScale.z);
     }
-
-
 }
