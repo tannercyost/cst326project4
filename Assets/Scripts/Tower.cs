@@ -14,8 +14,9 @@ public class Tower : MonoBehaviour
         healthBar.UpdateHealthBar(curLife, maxLife);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider collision)
     {
+        Debug.Log(collision.transform.name);
         if (collision.transform.tag == "Enemy")
         {
             curLife -= 10;
