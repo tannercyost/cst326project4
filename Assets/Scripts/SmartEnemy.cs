@@ -10,8 +10,8 @@ public class SmartEnemy : MonoBehaviour, iMovement
 {
     private NavMeshAgent agent;
 
-    [SerializeField] private float maxLife = 100;
-    [SerializeField] private float currentLife = 0;
+    [SerializeField] private float maxLife;
+    [SerializeField] private float currentLife;
     [SerializeField] private GameManager gm;
     [SerializeField] private HealthBar healthBar;
 
@@ -19,7 +19,7 @@ public class SmartEnemy : MonoBehaviour, iMovement
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        
+        currentLife = maxLife;
     }
 
     public void Initialize(WaypointManager waypointManager)
@@ -40,24 +40,25 @@ public class SmartEnemy : MonoBehaviour, iMovement
         agent.SetDestination(waypointManager.waypoints[waypointManager.waypoints.Length - 1].transform.position);
     }
 
+    public void DamageEnemy(float damage)
+    {
+        currentLife -= damage;
+        healthBar.UpdateHealthBar(currentLife, maxLife);
 
+        if (currentLife <= 0) //We are dead ... need to do book keeping
+        {
+            //update purse
+            enemyDeath.Invoke();
+            Destroy(gameObject);
+        }
+    }
     void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Weapon")
         {
             Bullet bulletThatHitMe = collision.transform.GetComponent<Bullet>();
-            currentLife -= bulletThatHitMe.Damage;
-
-            healthBar.UpdateHealthBar(currentLife, maxLife);
-
-            if (currentLife <= 0) //We are dead ... need to do book keeping
-            {
-                //update purse
-                enemyDeath.Invoke();
-                Destroy(gameObject);
-            }
+            DamageEnemy(bulletThatHitMe.Damage);
             Destroy(bulletThatHitMe.gameObject);
-
         }
     }
 

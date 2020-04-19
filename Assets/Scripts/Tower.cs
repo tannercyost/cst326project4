@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Tower : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class Tower : MonoBehaviour
         {
             // lose game
             Debug.Log("You lost.");
+            SceneManager.LoadScene(2);
+
         }
     }
 }

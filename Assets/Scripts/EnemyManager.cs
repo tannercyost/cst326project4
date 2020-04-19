@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 [System.Serializable]
 public struct Group
@@ -36,7 +38,7 @@ public class EnemyManager : MonoBehaviour
     public float timeToWaitA = 1;
     public float timeToWaitB = 1.5f;
     public Wave currentWave;
-
+    private bool trigger = false;
     public WaypointManager waypointManager;
 
     void Start()
@@ -48,6 +50,13 @@ public class EnemyManager : MonoBehaviour
         currentWave = new Wave(new Group[2] { groupA, groupB });
 
         SpawnWave(currentWave);
+    }
+
+    private void Update()
+    {
+        if (trigger)
+            if (transform.childCount <= 0)
+                SceneManager.LoadScene(3);
     }
 
     private void SpawnWave(Wave newWave)
@@ -64,8 +73,10 @@ public class EnemyManager : MonoBehaviour
         {
             yield return new WaitForSeconds(@group.spawnTime);
             GameObject enemy = Instantiate(@group.enemy);
+            enemy.transform.parent = gameObject.transform;
             enemy.GetComponent<iMovement>().Initialize(waypointManager);
             @group.numberOfEnemies--;
         }
+        trigger = true;
     }
 }
