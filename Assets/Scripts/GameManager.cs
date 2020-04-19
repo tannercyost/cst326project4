@@ -45,6 +45,12 @@ public class GameManager : MonoBehaviour
                     {
                         Debug.Log("Insufficient coins.");
                     }
+                } 
+                else if (e.CompareTag("Enemy"))
+                {
+                    SmartEnemy a = e.GetComponent<SmartEnemy>();
+                    a.DamageEnemy(10);
+                    Debug.Log(a);
                 }
                 //bool death = e.GetComponent<Enemy>().Damage(1);
                 //int value = e.GetComponent<Enemy>().value;

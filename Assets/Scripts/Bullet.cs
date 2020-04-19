@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     public float speed = 5;
     public float lifeTime = 2;
     private Rigidbody rb;
-    [SerializeField] private float damage = 20;
+    [SerializeField] private float damage;
     private WeaponFSM _myWeapon; //keep reference to pass for book keeping if enemy dies
 
     public float Damage
