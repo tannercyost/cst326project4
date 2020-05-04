@@ -51,27 +51,26 @@ public class SmartEnemy : MonoBehaviour, iMovement
         {
             currentLife -= damage;
             healthBar.UpdateHealthBar(currentLife, maxLife);
+
+
+
+            if (currentLife <= 0) //We are dead ... need to do book keeping
+            {
+                immune = true;
+                oof.Play(0);
+                GameObject a = gameObject.transform.GetChild(0).gameObject;
+                a.SetActive(false);
+                StartCoroutine(death());
+            }
         }
 
-        
-        if (currentLife <= 0) //We are dead ... need to do book keeping
-        {
-            immune = true;
-            //update purse
-            oof.Play(0);
-            enemyDeath.Invoke();
-            GameObject a = gameObject.transform.GetChild(0).gameObject;
-            a.SetActive(false);
-            healthBar.gameObject.SetActive(false);
-            transform.position = new Vector3(100,200,100);
-            StartCoroutine(death());
-        }
     }
 
     IEnumerator death()
     {
-        yield return new WaitForSeconds(3.25f);
+        yield return new WaitForSeconds(0.75f);
         Destroy(gameObject);
+        enemyDeath.Invoke();
     }
     void OnCollisionEnter(Collision collision)
     {
