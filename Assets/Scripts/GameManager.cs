@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private List<WeaponFSM> defenses;
     private void Awake()
     {
-        coins = 10;
+        coins = 20;
         coinText.SetText("Coins: " + coins);
     }
     private void addToPurse(int amt)
@@ -23,6 +23,11 @@ public class GameManager : MonoBehaviour
     {
         coins -= amt;
         coinText.SetText("Coins: " + coins);
+    }
+
+    public void deathReported()
+    {
+        addToPurse(10);
     }
 
     private void Update()

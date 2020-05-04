@@ -40,7 +40,7 @@ public class EnemyManager : MonoBehaviour
     public Wave currentWave;
     private bool trigger = false;
     public WaypointManager waypointManager;
-
+    public GameManager gm;
     void Start()
     {
         Group groupA = new Group(EnemyA, 1f, 7);
@@ -73,10 +73,17 @@ public class EnemyManager : MonoBehaviour
         {
             yield return new WaitForSeconds(@group.spawnTime);
             GameObject enemy = Instantiate(@group.enemy);
+            iMovement e = enemy.GetComponent<iMovement>();
+            e.DeathEvent().AddListener(delegate { reportDeath(); });
             enemy.transform.parent = gameObject.transform;
             enemy.GetComponent<iMovement>().Initialize(waypointManager);
             @group.numberOfEnemies--;
         }
         trigger = true;
+    }
+
+    private void reportDeath()
+    {
+        gm.deathReported();
     }
 }

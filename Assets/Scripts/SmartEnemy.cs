@@ -9,16 +9,21 @@ using UnityEngine.Events;
 public class SmartEnemy : MonoBehaviour, iMovement
 {
     private NavMeshAgent agent;
-
+    [SerializeField] private AudioSource oof;
     [SerializeField] private float maxLife;
     [SerializeField] private float currentLife;
     [SerializeField] private GameManager gm;
     [SerializeField] private HealthBar healthBar;
 
+    private bool immune;
+
     public UnityEvent enemyDeath;
     void Awake()
     {
+        immune = false;
         agent = GetComponent<NavMeshAgent>();
+        oof = GetComponent<AudioSource>();
+        
         currentLife = maxLife;
     }
 
@@ -42,15 +47,31 @@ public class SmartEnemy : MonoBehaviour, iMovement
 
     public void DamageEnemy(float damage)
     {
-        currentLife -= damage;
-        healthBar.UpdateHealthBar(currentLife, maxLife);
+        if (!immune)
+        {
+            currentLife -= damage;
+            healthBar.UpdateHealthBar(currentLife, maxLife);
+        }
 
+        
         if (currentLife <= 0) //We are dead ... need to do book keeping
         {
+            immune = true;
             //update purse
+            oof.Play(0);
             enemyDeath.Invoke();
-            Destroy(gameObject);
+            GameObject a = gameObject.transform.GetChild(0).gameObject;
+            a.SetActive(false);
+            healthBar.gameObject.SetActive(false);
+            transform.position = new Vector3(100,200,100);
+            StartCoroutine(death());
         }
+    }
+
+    IEnumerator death()
+    {
+        yield return new WaitForSeconds(3.25f);
+        Destroy(gameObject);
     }
     void OnCollisionEnter(Collision collision)
     {
